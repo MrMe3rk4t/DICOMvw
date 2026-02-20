@@ -1,2 +1,15 @@
 # DICOMvw
-Visualizador de imagenes DICOM, ligero y versatil 
+Un visor simple de imágenes médicas en formato DICOM, desarrollado en Python. Proyecto de aprendizaje en la intersección de la informática biomédica y la seguridad de sistemas de salud. 
+
+¿Que es DICOM?
+Es el estandar internacional para almacenamiento y transmisión de imagenes médicas (RX, CT, IGT)
+cada archivo DICOM (.dcm) contiene datos de la imagen; como escala de grises  y metadatos clínicos , como nombre del paciente, modalidad, fecha , institución donde se realizo el examen , entro otros
+
+Funcionalidades 
+* Carga archivos .dcm locales o para probar
+* Muestra metadatos clínicos
+* Estandariza la imagen para su correcta visualización
+* Identifica errores para archivos no encontrados o invalidos
+
+Instalación 
+* Python 3.8 o superior

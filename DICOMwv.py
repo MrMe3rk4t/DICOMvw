@@ -1,19 +1,61 @@
-import pydicom # lee , modifica y analiza archivos DICOM
-import matplotlib.pyplot as plt #permite  mostrar la imagen en pantalla 
+import pydicom
+import matplotlib.pyplot as plt
+import numpy as np
 from pydicom.data import get_testdata_file
 
+def load_dicom(path):
+  #Carga un archivo DICOM y maneja errores básicos.
+    try:
+        ds = pydicom.dcmread(path)
+        return ds
+    except FileNotFoundError:
+        print(f"Error: No se encontró el archivo en {path}")
+        return None
+    except pydicom.errors.InvalidDicomError:
+        print("Error: El archivo no es un DICOM válido.")
+        return None
 
-# para cargar el archivo DICOM
-dicom_path = get_testdata_file("CT_small.dcm")  # cambia la ruta
-ds = pydicom.dcmread(dicom_path) # lee el archivo ,abre el archivo binario, parsea la estructura y devuelve un objeto Dataset
+def show_metadata(ds):
+    #Muestra metadatos clínicos clave.
+    tags = {
+        "Paciente":       getattr(ds, "PatientName", "N/A"),
+        "Modalidad":      getattr(ds, "Modality", "N/A"),
+        "Fecha estudio":  getattr(ds, "StudyDate", "N/A"),
+        "Institución":    getattr(ds, "InstitutionName", "N/A"),
+        "Filas x Cols":   f"{getattr(ds, 'Rows', '?')} x {getattr(ds, 'Columns', '?')}",
+    }
+    print("\n=== Metadatos DICOM ===")
+    for key, val in tags.items():
+        print(f"  {key}: {val}")
+    print("=" * 22)
 
-# para mostrar informacion básica
-print(ds)
+def normalize_image(pixel_array):
+    """Normaliza el array a rango 0-255 para visualización correcta."""
+    pmin, pmax = pixel_array.min(), pixel_array.max()
+    return ((pixel_array - pmin) / (pmax - pmin) * 255).astype(np.uint8)
 
-# para mostrar imagenes 
-plt.imshow(ds.pixel_array, cmap="gray")  # extrae el tag y lo convierte en un array NumPy, imshow lo dibuja cmap lo vuelve escala de grises 
-plt.title("DICOM Viewer") # titulo
-plt.axis("off") # oculta los ejes
-plt.show() # abre la ventana 
+def show_image(ds):
+    """Muestra la imagen DICOM normalizada."""
+    if not hasattr(ds, "PixelData"):
+        print("Este archivo no contiene datos de imagen.")
+        return
+    
+    image = normalize_image(ds.pixel_array)
+    
+    plt.figure(figsize=(6, 6))
+    plt.imshow(image, cmap="gray")
+    plt.title(f"DICOM Viewer — {getattr(ds, 'Modality', 'Desconocido')}")
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+
+# --- Main ---
+if __name__ == "__main__":
+    dicom_path = get_testdata_file("CT_small.dcm")
+    ds = load_dicom(dicom_path)
+    
+    if ds:
+        show_metadata(ds)
+        show_image(ds)
 
 

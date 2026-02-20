@@ -13,3 +13,21 @@ Funcionalidades
 
 Instalación 
 * Python 3.8 o superior
+
+Pasos
+* bash
+  #1. Clona el repositorio
+  git clone https://github.com/tu-usuario/dicom-viewer.git
+  cd dicom-viewer
+
+  # 2. (Opcional) Crea un entorno virtual
+  python -m venv venv
+  source venv/bin/activate        # Linux/macOS
+  venv\Scripts\activate           # Windows
+
+  # 3. Instala las dependencias
+  pip install -r requirements.txt
+
+
+
+

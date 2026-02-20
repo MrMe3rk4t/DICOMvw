@@ -16,8 +16,8 @@ Instalación
 
 Pasos
 * bash
-  #1. Clona el repositorio
-  git clone https://github.com/tu-usuario/dicom-viewer.git
+  # 1. Clona el repositorio
+  git clone https://github.com//MrMe3rk4t/DICOMvw.git
   cd dicom-viewer
 
   # 2. (Opcional) Crea un entorno virtual

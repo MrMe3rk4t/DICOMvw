@@ -30,12 +30,12 @@ def show_metadata(ds):
     print("=" * 22)
 
 def normalize_image(pixel_array):
-    """Normaliza el array a rango 0-255 para visualización correcta."""
+    #Normaliza el array a rango 0-255 para visualización correcta.
     pmin, pmax = pixel_array.min(), pixel_array.max()
     return ((pixel_array - pmin) / (pmax - pmin) * 255).astype(np.uint8)
 
 def show_image(ds):
-    """Muestra la imagen DICOM normalizada."""
+    #Muestra la imagen DICOM normalizada.
     if not hasattr(ds, "PixelData"):
         print("Este archivo no contiene datos de imagen.")
         return
